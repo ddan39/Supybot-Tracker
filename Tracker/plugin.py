@@ -40,6 +40,7 @@ cat_names = dict(zip(cat_ids.values(), cat_ids.keys()))
 
 tracker_url = 'http://tracker.somesite.com:12345' # assumes tracker users /PASSKEY/announce format
 bot_passkey = '' # passkey the bot's libtorrent client will use
+chan = '#share'
 
 def getdb():
     return mysql.connector.connect(database='', host='127.0.0.1', port=3306, user='root', password='')
@@ -200,7 +201,7 @@ class Tracker(callbacks.Plugin):
                 name = tor.name()
                 self.ltses.remove_torrent(tor)
                 self.log.error('30min timeout %s %s %s' % (name, status.info_hash, status.has_metadata))
-                irc.reply('Removed %s from client. 30 minutes and no metadata :(' % name, prefixNick=False, to="#share")
+                irc.reply('Removed %s from client. 30 minutes and no metadata :(' % name, prefixNick=False, to=chan)
 
     def _checkmetadata(self, irc):
         """check alerts from libtorrent session for torrents that have received metadata,
@@ -238,7 +239,7 @@ class Tracker(callbacks.Plugin):
 
                     #self.ltses.remove_torrent(alert.handle)
 
-                    irc.reply('%s got metadata: %s | %s files | Size: %s' % (tid, ti.name(), ti.num_files(), sizefmt(ti.total_size())), prefixNick=False, to='#share')
+                    irc.reply('%s got metadata: %s | %s files | Size: %s' % (tid, ti.name(), ti.num_files(), sizefmt(ti.total_size())), prefixNick=False, to=chan)
         except:
             traceback.print_exc()
 
@@ -434,8 +435,8 @@ class Tracker(callbacks.Plugin):
     def ul(self, irc, msg, args, infohash, cat, scene, name):
         """<infohash> <category name> <1/true if scene else 0/false> <torrent name> - Upload torrent to tracker"""
 
-        if msg.args[0] != '#share':
-            irc.error('Must ul in #share!')
+        if msg.args[0] != chan:
+            irc.error('Must ul in %s!' % chan)
             return
 
         if not is_infohash(infohash):
