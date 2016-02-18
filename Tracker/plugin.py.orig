@@ -1,0 +1,29 @@
+###
+# Copyright (c) 2014,
+# All rights reserved.
+#
+#
+###
+
+import supybot.utils as utils
+from supybot.commands import *
+import supybot.plugins as plugins
+import supybot.ircutils as ircutils
+import supybot.callbacks as callbacks
+try:
+    from supybot.i18n import PluginInternationalization
+    _ = PluginInternationalization('Tracker')
+except ImportError:
+    # Placeholder that allows to run the plugin on a bot
+    # without the i18n module
+    _ = lambda x:x
+
+class Tracker(callbacks.Plugin):
+    """BitTorrent tracker frontend"""
+    pass
+
+
+Class = Tracker
+
+
+# vim:set shiftwidth=4 softtabstop=4 expandtab textwidth=79:
