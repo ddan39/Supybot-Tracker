@@ -375,6 +375,7 @@ class Tracker(callbacks.Plugin):
                         irc.error('%s doesnt exist' % tids)
                         return
                     name, infohash = result
+                    infohash = lt.big_number(str(infohash))
                     handle = self.ltses.find_torrent(infohash)
                     if handle.is_valid():
                         self.ltses.remove_torrent(handle)
