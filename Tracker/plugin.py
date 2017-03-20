@@ -622,6 +622,12 @@ class Tracker(callbacks.Plugin):
 
         self._output_torrents(irc, result, 1)
 
+    @wrap
+    def cats(self, irc, msg, args):
+        """display categories"""
+        cats = ', '.join(cat_ids.keys())
+        irc.reply(cats)
+
     def die(self):
         if hasattr(self, 'ltses'):
             del self.ltses
